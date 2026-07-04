@@ -10,7 +10,7 @@ interface Message {
 
 const GREETING: Message = {
   role: "assistant",
-  content: `Hi! I'm Paver Pal, ${business.name}'s assistant. Ask me about patios, driveways, pool decks — or let's set up your free estimate!`,
+  content: `Hi! I'm Paver Pete, ${business.name}'s assistant. Ask me about patios, driveways, pool decks — or let's set up your free estimate!`,
 };
 
 const QUICK_REPLIES = ["Get a free estimate", "What do pavers cost?", "Do you do pool decks?"];
@@ -61,7 +61,7 @@ export default function ChatWidget() {
         type="button"
         onClick={() => setOpen(!open)}
         aria-expanded={open}
-        aria-label={open ? "Close chat" : "Chat with Paver Pal"}
+        aria-label={open ? "Close chat" : "Chat with Paver Pete"}
         className="fixed bottom-20 right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-clay-600 text-2xl text-white shadow-lg hover:bg-clay-700 sm:bottom-6"
       >
         {open ? "✕" : "💬"}
@@ -70,11 +70,11 @@ export default function ChatWidget() {
       {open && (
         <div
           role="dialog"
-          aria-label="Paver Pal chat assistant"
+          aria-label="Paver Pete chat assistant"
           className="fixed bottom-36 right-4 z-50 flex h-[28rem] w-[calc(100vw-2rem)] max-w-sm flex-col overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-sand-300 sm:bottom-24"
         >
           <div className="bg-espresso-900 px-4 py-3">
-            <p className="font-display font-bold text-sand-50">Paver Pal</p>
+            <p className="font-display font-bold text-sand-50">Paver Pete</p>
             <p className="text-xs text-sand-300">{business.name} · AI assistant</p>
           </div>
 

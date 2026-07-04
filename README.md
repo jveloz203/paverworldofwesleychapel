@@ -1,7 +1,7 @@
 # Paver World of Wesley Chapel — Website
 
 Modern, conversion-focused website for [Paver World of Wesley Chapel](https://www.paverworldofwesleychapel.com):
-Next.js 15 + Tailwind CSS v4, with an AI chat assistant ("Paver Pal") and an email lead pipeline.
+Next.js 15 + Tailwind CSS v4, with an AI chat assistant ("Paver Pete") and an email lead pipeline.
 
 ## Develop
 

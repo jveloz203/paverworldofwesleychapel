@@ -29,7 +29,7 @@ export function getAIConfig(
 export function buildSystemPrompt(): string {
   const services = business.services.map((s) => `- ${s.name}: ${s.blurb}`).join("\n");
   const faqs = business.faqs.map((f) => `Q: ${f.q}\nA: ${f.a}`).join("\n\n");
-  return `You are "Paver Pal", the friendly AI assistant on the Paver World of Wesley Chapel website.
+  return `You are "Paver Pete", the friendly AI assistant on the Paver World of Wesley Chapel website.
 
 BUSINESS FACTS (your only source of truth — do not add facts beyond these):
 - ${business.legalName}, family owned since ${business.foundedYear} (${yearsInBusiness()} years) by ${business.owners}.
