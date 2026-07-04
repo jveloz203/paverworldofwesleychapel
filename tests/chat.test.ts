@@ -1,0 +1,69 @@
+import { describe, it, expect } from "vitest";
+import { extractLeadMarker, validateChatBody, checkRateLimit } from "@/lib/chat";
+
+describe("extractLeadMarker", () => {
+  it("extracts a lead and strips the marker from the text", () => {
+    const raw = `Thanks Maria! We'll call you shortly.\n[LEAD]{"name":"Maria Lopez","phone":"813-555-0142","projectType":"pool deck"}[/LEAD]`;
+    const { text, lead } = extractLeadMarker(raw);
+    expect(text).toBe("Thanks Maria! We'll call you shortly.");
+    expect(lead).toEqual({ name: "Maria Lopez", phone: "813-555-0142", projectType: "pool deck" });
+  });
+
+  it("returns null lead when there is no marker", () => {
+    const { text, lead } = extractLeadMarker("Just a normal reply.");
+    expect(text).toBe("Just a normal reply.");
+    expect(lead).toBeNull();
+  });
+
+  it("strips a malformed marker but returns null lead", () => {
+    const { text, lead } = extractLeadMarker("Reply.\n[LEAD]{not json}[/LEAD]");
+    expect(text).toBe("Reply.");
+    expect(lead).toBeNull();
+  });
+
+  it("requires name and phone in the marker", () => {
+    const { lead } = extractLeadMarker(`Ok\n[LEAD]{"name":"Bob"}[/LEAD]`);
+    expect(lead).toBeNull();
+  });
+});
+
+describe("validateChatBody", () => {
+  it("accepts a valid message list", () => {
+    const messages = validateChatBody({
+      messages: [
+        { role: "assistant", content: "Hi!" },
+        { role: "user", content: "Do you do driveways?" },
+      ],
+    });
+    expect(messages).toHaveLength(2);
+  });
+
+  it("rejects non-object bodies, missing/empty lists, and lists with no user message", () => {
+    expect(validateChatBody(null)).toBeNull();
+    expect(validateChatBody({})).toBeNull();
+    expect(validateChatBody({ messages: [] })).toBeNull();
+    expect(validateChatBody({ messages: [{ role: "assistant", content: "hi" }] })).toBeNull();
+  });
+
+  it("rejects bad roles, non-string content, oversized content, and >20 messages", () => {
+    expect(validateChatBody({ messages: [{ role: "system", content: "x" }] })).toBeNull();
+    expect(validateChatBody({ messages: [{ role: "user", content: 5 }] })).toBeNull();
+    expect(
+      validateChatBody({ messages: [{ role: "user", content: "x".repeat(2001) }] })
+    ).toBeNull();
+    const tooMany = Array.from({ length: 21 }, () => ({ role: "user", content: "hi" }));
+    expect(validateChatBody({ messages: tooMany })).toBeNull();
+  });
+});
+
+describe("checkRateLimit", () => {
+  it("allows up to the limit within the window, then blocks, then resets", () => {
+    const opts = { limit: 3, windowMs: 1000 };
+    expect(checkRateLimit("ip-a", { ...opts, now: 0 })).toBe(true);
+    expect(checkRateLimit("ip-a", { ...opts, now: 10 })).toBe(true);
+    expect(checkRateLimit("ip-a", { ...opts, now: 20 })).toBe(true);
+    expect(checkRateLimit("ip-a", { ...opts, now: 30 })).toBe(false);
+    expect(checkRateLimit("ip-b", { ...opts, now: 30 })).toBe(true);
+    expect(checkRateLimit("ip-a", { ...opts, now: 2000 })).toBe(true);
+  });
+});
