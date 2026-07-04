@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import StickyMobileBar from "@/components/StickyMobileBar";
+import ChatWidget from "@/components/ChatWidget";
 import { business } from "@/lib/business";
 import { siteUrl } from "@/lib/site";
 
@@ -62,6 +63,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
         <Footer />
         <StickyMobileBar />
+        <ChatWidget />
       </body>
     </html>
   );
