@@ -20,7 +20,7 @@ const intents: Intent[] = [
     id: "schedule",
     pattern: /\b(schedule|book|appointment|consultation|come out|visit|set up|arrange)\b/i,
     reply: () =>
-      `We'd love to take a look! Estimates are always free — fill out the quote form on this page or call ${phone.display} (Monday–Friday, 9am–5pm) and we'll set up a time that works for you.`,
+      `We'd love to take a look! Estimates are always free — fill out the quote form on this page or call ${phone.display} (${hours}) and we'll set up a time that works for you.`,
   },
   {
     id: "pool-decks",
@@ -73,7 +73,7 @@ const intents: Intent[] = [
 ];
 
 const DEFAULT_REPLY = () =>
-  `Great question! I'm a simple assistant, so for anything I can't answer the fastest route is Paver Pete himself: call ${phone.display} (Monday–Friday, 9am–5pm) or request a free estimate with the quote form on this page.`;
+  `Great question! I'm a simple assistant, so for anything I can't answer the fastest route is Paver Pete himself: call ${phone.display} (${hours}) or request a free estimate with the quote form on this page.`;
 
 export function fallbackReply(userMessage: string): string {
   const intent = intents.find((i) => i.pattern.test(userMessage));
