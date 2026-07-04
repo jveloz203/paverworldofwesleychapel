@@ -2,6 +2,7 @@ import { getAIConfig, callAI } from "@/lib/ai";
 import { validateChatBody, extractLeadMarker, checkRateLimit } from "@/lib/chat";
 import { fallbackReply } from "@/lib/fallback-chat";
 import { sendLead } from "@/lib/leads";
+import { business } from "@/lib/business";
 
 function clientKey(request: Request): string {
   return request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
@@ -10,7 +11,7 @@ function clientKey(request: Request): string {
 export async function POST(request: Request): Promise<Response> {
   if (!checkRateLimit(clientKey(request))) {
     return Response.json(
-      { error: "Too many messages — please call (813) 994-8805." },
+      { error: `Too many messages — please call ${business.phone.display}.` },
       { status: 429 }
     );
   }
