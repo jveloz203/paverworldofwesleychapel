@@ -7,10 +7,11 @@ export interface ChatLead {
 }
 
 const LEAD_MARKER = /\[LEAD\]([\s\S]*?)\[\/LEAD\]/;
+const LEAD_MARKER_GLOBAL = /\[LEAD\]([\s\S]*?)\[\/LEAD\]/g;
 
 export function extractLeadMarker(raw: string): { text: string; lead: ChatLead | null } {
   const match = raw.match(LEAD_MARKER);
-  const text = raw.replace(LEAD_MARKER, "").trim();
+  const text = raw.replace(LEAD_MARKER_GLOBAL, "").trim();
   if (!match) return { text, lead: null };
   try {
     const parsed = JSON.parse(match[1]) as Record<string, unknown>;
@@ -53,6 +54,10 @@ export function validateChatBody(body: unknown): ChatMessage[] | null {
   }
   if (!valid.some((m) => m.role === "user")) return null;
   return valid;
+}
+
+export function trimToUserStart(messages: ChatMessage[]): ChatMessage[] {
+  return messages.slice(messages.findIndex((m) => m.role === "user"));
 }
 
 const buckets = new Map<string, number[]>();

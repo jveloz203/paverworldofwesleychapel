@@ -1,6 +1,19 @@
 import { validateLead, sendLead } from "@/lib/leads";
+import { checkRateLimit } from "@/lib/chat";
+import { business } from "@/lib/business";
+
+function clientKey(request: Request): string {
+  return request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+}
 
 export async function POST(request: Request): Promise<Response> {
+  if (!checkRateLimit(`lead:${clientKey(request)}`)) {
+    return Response.json(
+      { ok: false, errors: { rate: `Too many requests — please call ${business.phone.display}.` } },
+      { status: 429 }
+    );
+  }
+
   let body: unknown;
   try {
     body = await request.json();

@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { extractLeadMarker, validateChatBody, checkRateLimit } from "@/lib/chat";
+import { extractLeadMarker, validateChatBody, checkRateLimit, trimToUserStart } from "@/lib/chat";
+import type { ChatMessage } from "@/lib/ai";
 
 describe("extractLeadMarker", () => {
   it("extracts a lead and strips the marker from the text", () => {
@@ -7,6 +8,15 @@ describe("extractLeadMarker", () => {
     const { text, lead } = extractLeadMarker(raw);
     expect(text).toBe("Thanks Maria! We'll call you shortly.");
     expect(lead).toEqual({ name: "Maria Lopez", phone: "813-555-0142", projectType: "pool deck" });
+  });
+
+  it("strips every [LEAD] marker globally, parsing the lead from the first", () => {
+    const raw = `Thanks!\n[LEAD]{"name":"Maria Lopez","phone":"813-555-0142"}[/LEAD]\nAnd again:\n[LEAD]{"name":"Second Person","phone":"999-999-9999"}[/LEAD]`;
+    const { text, lead } = extractLeadMarker(raw);
+    expect(text).not.toContain("[LEAD]");
+    expect(text).not.toContain("[/LEAD]");
+    expect(text).not.toContain("Second Person");
+    expect(lead).toEqual({ name: "Maria Lopez", phone: "813-555-0142" });
   });
 
   it("returns null lead when there is no marker", () => {
@@ -53,6 +63,28 @@ describe("validateChatBody", () => {
     ).toBeNull();
     const tooMany = Array.from({ length: 21 }, () => ({ role: "user", content: "hi" }));
     expect(validateChatBody({ messages: tooMany })).toBeNull();
+  });
+});
+
+describe("trimToUserStart", () => {
+  it("drops leading assistant messages so the first message is the first user message", () => {
+    const messages: ChatMessage[] = [
+      { role: "assistant", content: "Hi! Welcome." },
+      { role: "assistant", content: "How can I help?" },
+      { role: "user", content: "Do you do driveways?" },
+      { role: "assistant", content: "Yes we do." },
+    ];
+    const trimmed = trimToUserStart(messages);
+    expect(trimmed[0]).toEqual({ role: "user", content: "Do you do driveways?" });
+    expect(trimmed).toHaveLength(2);
+  });
+
+  it("leaves a user-first array unchanged", () => {
+    const messages: ChatMessage[] = [
+      { role: "user", content: "Hi" },
+      { role: "assistant", content: "Hello" },
+    ];
+    expect(trimToUserStart(messages)).toEqual(messages);
   });
 });
 

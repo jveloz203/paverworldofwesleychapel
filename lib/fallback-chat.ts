@@ -18,7 +18,7 @@ const intents: Intent[] = [
   },
   {
     id: "schedule",
-    pattern: /\b(schedule|book|appointment|consultation|come out|visit|set up|arrange)\b/i,
+    pattern: /\b(schedule|book|appointment|consultation|come out|visit|set up|arrange|estimate)\b/i,
     reply: () =>
       `We'd love to take a look! Estimates are always free — fill out the quote form on this page or call ${phone.display} (${hours}) and we'll set up a time that works for you.`,
   },

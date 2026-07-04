@@ -1,5 +1,5 @@
 import { getAIConfig, callAI } from "@/lib/ai";
-import { validateChatBody, extractLeadMarker, checkRateLimit } from "@/lib/chat";
+import { validateChatBody, extractLeadMarker, checkRateLimit, trimToUserStart } from "@/lib/chat";
 import { fallbackReply } from "@/lib/fallback-chat";
 import { sendLead } from "@/lib/leads";
 import { business } from "@/lib/business";
@@ -36,11 +36,11 @@ export async function POST(request: Request): Promise<Response> {
   }
 
   try {
-    const raw = await callAI(messages, config);
+    const raw = await callAI(trimToUserStart(messages), config);
     const { text, lead } = extractLeadMarker(raw);
     if (lead) {
-      // Fire-and-forget: lead delivery must never delay or break the chat reply.
-      void sendLead({ ...lead, source: "chat" }).catch(() => {});
+      // Awaited so serverless response freezes can't drop the send (sendLead never throws).
+      await sendLead({ ...lead, source: "chat" });
     }
     return Response.json({ reply: text, source: "ai" });
   } catch (error) {

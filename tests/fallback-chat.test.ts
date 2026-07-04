@@ -64,4 +64,16 @@ describe("fallbackReply", () => {
     const reply = fallbackReply("zzz unrelated gibberish qqq");
     expect(reply).toContain("(813) 994-8805");
   });
+
+  it("routes the quick-reply 'Get a free estimate' chip to the scheduling reply, not the generic default", () => {
+    const reply = fallbackReply("Get a free estimate");
+    expect(reply).toContain("(813) 994-8805");
+    expect(reply.toLowerCase()).toContain("free");
+    expect(reply).not.toContain("I'm a simple assistant");
+  });
+
+  it("still routes 'estimate cost' questions to the cost intent ahead of scheduling", () => {
+    const reply = fallbackReply("What's the estimate cost for a driveway?");
+    expect(reply.toLowerCase()).toContain("free on-site estimate");
+  });
 });

@@ -33,4 +33,22 @@ describe("POST /api/lead", () => {
     );
     expect(res.status).toBe(400);
   });
+
+  it("rate limits repeated leads from the same IP", async () => {
+    const ip = "192.0.2.55";
+    let lastRes: Response | undefined;
+    for (let i = 0; i < 21; i++) {
+      lastRes = await POST(
+        new Request("http://localhost/api/lead", {
+          method: "POST",
+          headers: { "content-type": "application/json", "x-forwarded-for": ip },
+          body: JSON.stringify({ name: "John", phone: "8135550100", source: "quote-form" }),
+        })
+      );
+    }
+    expect(lastRes!.status).toBe(429);
+    const data = await lastRes!.json();
+    expect(data.ok).toBe(false);
+    expect(data.errors.rate).toContain("(813) 994-8805");
+  });
 });
