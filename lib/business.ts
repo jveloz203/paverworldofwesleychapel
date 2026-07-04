@@ -157,19 +157,19 @@ export const business = {
   ],
   testimonials: [
     {
-      quote: "Sample review — replace this quote with a real customer review from your Google or Yelp profile.",
-      name: "Placeholder — replace with a real review",
+      quote: "We had driveway extension pavers and a path to the back gate installed. It turned out so beautiful and we are thrilled with the results. Everyone in the neighborhood is complimenting the work. ",
+      name: "Jennifer",
       source: "Google",
     },
     {
-      quote: "Sample review — replace this quote with a real customer review from your Google or Yelp profile.",
-      name: "Placeholder — replace with a real review",
-      source: "Yelp",
+      quote: "I did my backyard with Paver World Wesley Chapel, and they were amazing! They took care of every detail and did a beautiful job.",
+      name: "Hamza,
+      source: "Google",
     },
     {
-      quote: "Sample review — replace this quote with a real customer review from your Google or Yelp profile.",
-      name: "Placeholder — replace with a real review",
-      source: "Facebook",
+      quote: "I recently had the pleasure of working with Paver World of Wesley Chapel, a family-owned business. From start to finish, their dedication to delivering high-quality work and outstanding customer service was evident",
+      name: "Juan",
+      source: "Google",
     },
   ],
 } as const;
