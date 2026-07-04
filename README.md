@@ -2,9 +2,7 @@
 
 ## Superpowers
 
-This repository includes [Superpowers](https://github.com/obra/superpowers) (v6.1.1), a software-development methodology for coding agents built on composable skills (TDD, systematic debugging, planning, code review, and more).
+This repository uses [Superpowers](https://github.com/obra/superpowers), a software-development methodology for coding agents built on composable skills (TDD, systematic debugging, planning, code review, and more).
 
-- `superpowers/` — the full vendored Superpowers repository (plugin manifests, hooks, docs, tests).
-- `.claude/skills/` — the Superpowers skills, placed here so Claude Code automatically discovers and loads them when working in this repository.
-
-To update, re-sync both locations from the upstream repository.
+- `.claude/settings.json` — installs the Superpowers plugin for this repository: it registers the [obra/superpowers-marketplace](https://github.com/obra/superpowers-marketplace) and enables `superpowers@superpowers-marketplace`, so Claude Code loads the plugin (skills, session-start hook, and commands) automatically. On first use, Claude Code will ask you to trust the marketplace/plugin.
+- `superpowers/` — a vendored snapshot of the upstream Superpowers repository (v6.1.1) for reference.
