@@ -11,7 +11,7 @@ export default function StickyMobileBar() {
         📞 Call Now
       </a>
       <Link
-        href="/#quote"
+        href="/#contact"
         className="flex items-center justify-center gap-2 bg-clay-600 py-3 text-sm font-bold text-white"
       >
         Free Estimate

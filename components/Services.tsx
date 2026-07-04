@@ -26,7 +26,7 @@ export default function Services() {
                 <h3 className="font-display text-xl font-bold text-espresso-900">{service.name}</h3>
                 <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-sage-600">{service.benefit}</p>
                 <p className="mt-2 text-sm text-espresso-600">{service.blurb}</p>
-                <Link href="/#quote" className="mt-3 inline-block text-sm font-bold text-clay-600 hover:text-clay-700">
+                <Link href="/#contact" className="mt-3 inline-block text-sm font-bold text-clay-600 hover:text-clay-700">
                   Get a free estimate →
                 </Link>
               </div>
