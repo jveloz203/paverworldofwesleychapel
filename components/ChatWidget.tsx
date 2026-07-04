@@ -62,9 +62,30 @@ export default function ChatWidget() {
         onClick={() => setOpen(!open)}
         aria-expanded={open}
         aria-label={open ? "Close chat" : "Chat with Paver Pete"}
-        className="fixed bottom-20 right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-clay-600 text-2xl text-white shadow-lg hover:bg-clay-700 sm:bottom-6"
+        className="fixed bottom-20 right-4 z-50 flex items-center gap-2 rounded-full bg-clay-600 px-4 py-3 text-sand-50 shadow-lg hover:bg-clay-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-clay-400 focus-visible:ring-offset-2 sm:bottom-6"
       >
-        {open ? "✕" : "💬"}
+        {open ? (
+          <span className="text-xl leading-none">✕</span>
+        ) : (
+          <svg
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="h-6 w-6 shrink-0"
+          >
+            <line x1="12" y1="2" x2="12" y2="5" />
+            <circle cx="12" cy="2" r="1" fill="currentColor" stroke="none" />
+            <rect x="4" y="5" width="16" height="14" rx="4" />
+            <circle cx="9" cy="12" r="1.5" fill="currentColor" stroke="none" />
+            <circle cx="15" cy="12" r="1.5" fill="currentColor" stroke="none" />
+          </svg>
+        )}
+        <span className="text-sm font-bold">Paver Pete</span>
       </button>
 
       {open && (
