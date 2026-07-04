@@ -23,8 +23,8 @@ const u = (id: string) =>
 // SmartImage renders a designed fallback automatically if a URL stops resolving.
 export const images: Record<ImageSlot, SiteImage> = {
   hero: {
-    url: u("photo-1600585154340-be6161a56a0c"),
-    alt: "Florida home with a professionally installed paver driveway and walkway",
+    url: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1600&q=80",
+    alt: "Florida modern farmhouse home with a beautiful paver driveway and walkway on a sunny day",
   },
   patios: {
     url: u("photo-1600210492486-724fe5c67fb0"),
