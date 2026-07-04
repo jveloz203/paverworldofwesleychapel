@@ -163,7 +163,7 @@ export const business = {
     },
     {
       quote: "I did my backyard with Paver World Wesley Chapel, and they were amazing! They took care of every detail and did a beautiful job.",
-      name: "Hamza,
+      name: "Hamza",
       source: "Google",
     },
     {
