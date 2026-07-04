@@ -4,7 +4,7 @@ import SmartImage from "@/components/SmartImage";
 import QuoteForm from "@/components/QuoteForm";
 
 export const metadata: Metadata = {
-  title: "About Us — Family Owned Since 2006",
+  title: `About Us — Family Owned Since ${business.foundedYear}`,
   description: `Meet Paver Pete and Catherine — the family behind ${business.name}, serving Wesley Chapel and Tampa Bay since ${business.foundedYear}.`,
 };
 
